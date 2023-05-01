@@ -1,0 +1,134 @@
+{
+  "ver": "1.0.25",
+  "importer": "image",
+  "imported": true,
+  "uuid": "76a41301-2e9f-405d-a01f-834348b6bbde",
+  "files": [
+    ".json",
+    ".png"
+  ],
+  "subMetas": {
+    "6c48a": {
+      "importer": "texture",
+      "uuid": "76a41301-2e9f-405d-a01f-834348b6bbde@6c48a",
+      "displayName": "AirHockeyTitle",
+      "id": "6c48a",
+      "name": "texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "76a41301-2e9f-405d-a01f-834348b6bbde",
+        "visible": false
+      },
+      "ver": "1.0.22",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "f9941": {
+      "importer": "sprite-frame",
+      "uuid": "76a41301-2e9f-405d-a01f-834348b6bbde@f9941",
+      "displayName": "AirHockeyTitle",
+      "id": "f9941",
+      "name": "spriteFrame",
+      "userData": {
+        "trimType": "auto",
+        "trimThreshold": 1,
+        "rotated": false,
+        "offsetX": -6,
+        "offsetY": -2.5,
+        "trimX": 0,
+        "trimY": 23,
+        "width": 283,
+        "height": 41,
+        "rawWidth": 295,
+        "rawHeight": 82,
+        "borderTop": 0,
+        "borderBottom": 0,
+        "borderLeft": 0,
+        "borderRight": 0,
+        "packable": true,
+        "pixelsToUnit": 100,
+        "pivotX": 0.5,
+        "pivotY": 0.5,
+        "meshType": 0,
+        "vertices": {
+          "rawPosition": [
+            -141.5,
+            -20.5,
+            0,
+            141.5,
+            -20.5,
+            0,
+            -141.5,
+            20.5,
+            0,
+            141.5,
+            20.5,
+            0
+          ],
+          "indexes": [
+            0,
+            1,
+            2,
+            2,
+            1,
+            3
+          ],
+          "uv": [
+            0,
+            59,
+            283,
+            59,
+            0,
+            18,
+            283,
+            18
+          ],
+          "nuv": [
+            0,
+            0.21951219512195122,
+            0.9593220338983051,
+            0.21951219512195122,
+            0,
+            0.7195121951219512,
+            0.9593220338983051,
+            0.7195121951219512
+          ],
+          "minPos": [
+            -141.5,
+            -20.5,
+            0
+          ],
+          "maxPos": [
+            141.5,
+            20.5,
+            0
+          ]
+        },
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "76a41301-2e9f-405d-a01f-834348b6bbde@6c48a",
+        "atlasUuid": ""
+      },
+      "ver": "1.0.11",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "fixAlphaTransparencyArtifacts": true,
+    "hasAlpha": true,
+    "type": "sprite-frame",
+    "redirect": "76a41301-2e9f-405d-a01f-834348b6bbde@f9941"
+  }
+}

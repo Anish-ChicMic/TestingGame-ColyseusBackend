@@ -1,0 +1,134 @@
+{
+  "ver": "1.0.25",
+  "importer": "image",
+  "imported": true,
+  "uuid": "2e7e29b9-949c-4a84-83f0-b088bc4b761a",
+  "files": [
+    ".json",
+    ".png"
+  ],
+  "subMetas": {
+    "6c48a": {
+      "importer": "texture",
+      "uuid": "2e7e29b9-949c-4a84-83f0-b088bc4b761a@6c48a",
+      "displayName": "AirHockeyBoard",
+      "id": "6c48a",
+      "name": "texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "2e7e29b9-949c-4a84-83f0-b088bc4b761a",
+        "visible": false
+      },
+      "ver": "1.0.22",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "f9941": {
+      "importer": "sprite-frame",
+      "uuid": "2e7e29b9-949c-4a84-83f0-b088bc4b761a@f9941",
+      "displayName": "AirHockeyBoard",
+      "id": "f9941",
+      "name": "spriteFrame",
+      "userData": {
+        "trimType": "auto",
+        "trimThreshold": 1,
+        "rotated": false,
+        "offsetX": 0,
+        "offsetY": 0,
+        "trimX": 0,
+        "trimY": 2,
+        "width": 1137,
+        "height": 2044,
+        "rawWidth": 1137,
+        "rawHeight": 2048,
+        "borderTop": 0,
+        "borderBottom": 0,
+        "borderLeft": 0,
+        "borderRight": 0,
+        "packable": true,
+        "pixelsToUnit": 100,
+        "pivotX": 0.5,
+        "pivotY": 0.5,
+        "meshType": 0,
+        "vertices": {
+          "rawPosition": [
+            -568.5,
+            -1022,
+            0,
+            568.5,
+            -1022,
+            0,
+            -568.5,
+            1022,
+            0,
+            568.5,
+            1022,
+            0
+          ],
+          "indexes": [
+            0,
+            1,
+            2,
+            2,
+            1,
+            3
+          ],
+          "uv": [
+            0,
+            2046,
+            1137,
+            2046,
+            0,
+            2,
+            1137,
+            2
+          ],
+          "nuv": [
+            0,
+            0.0009765625,
+            1,
+            0.0009765625,
+            0,
+            0.9990234375,
+            1,
+            0.9990234375
+          ],
+          "minPos": [
+            -568.5,
+            -1022,
+            0
+          ],
+          "maxPos": [
+            568.5,
+            1022,
+            0
+          ]
+        },
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "2e7e29b9-949c-4a84-83f0-b088bc4b761a@6c48a",
+        "atlasUuid": ""
+      },
+      "ver": "1.0.11",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "fixAlphaTransparencyArtifacts": true,
+    "hasAlpha": true,
+    "type": "sprite-frame",
+    "redirect": "2e7e29b9-949c-4a84-83f0-b088bc4b761a@f9941"
+  }
+}

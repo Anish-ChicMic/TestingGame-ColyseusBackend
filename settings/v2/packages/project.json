@@ -1,0 +1,43 @@
+{
+  "__version__": "1.0.2",
+  "general": {
+    "designResolution": {
+      "width": 1080,
+      "height": 2400,
+      "fitHeight": true,
+      "fitWidth": false
+    }
+  },
+  "physics": {
+    "collisionGroups": [
+      {
+        "index": 1,
+        "name": "Puck"
+      },
+      {
+        "index": 2,
+        "name": "Striker"
+      },
+      {
+        "index": 3,
+        "name": "Boundry"
+      },
+      {
+        "index": 4,
+        "name": "Goal"
+      },
+      {
+        "index": 5,
+        "name": "Flag"
+      }
+    ],
+    "collisionMatrix": {
+      "0": 0,
+      "1": 60,
+      "2": 10,
+      "3": 6,
+      "4": 2,
+      "5": 2
+    }
+  }
+}

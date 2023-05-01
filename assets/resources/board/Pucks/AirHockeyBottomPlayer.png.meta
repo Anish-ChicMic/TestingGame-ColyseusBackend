@@ -1,0 +1,134 @@
+{
+  "ver": "1.0.25",
+  "importer": "image",
+  "imported": true,
+  "uuid": "03ca491c-3350-456c-b573-a7e9fadf6073",
+  "files": [
+    ".json",
+    ".png"
+  ],
+  "subMetas": {
+    "6c48a": {
+      "importer": "texture",
+      "uuid": "03ca491c-3350-456c-b573-a7e9fadf6073@6c48a",
+      "displayName": "AirHockeyBottomPlayer",
+      "id": "6c48a",
+      "name": "texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "03ca491c-3350-456c-b573-a7e9fadf6073",
+        "visible": false
+      },
+      "ver": "1.0.22",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "f9941": {
+      "importer": "sprite-frame",
+      "uuid": "03ca491c-3350-456c-b573-a7e9fadf6073@f9941",
+      "displayName": "AirHockeyBottomPlayer",
+      "id": "f9941",
+      "name": "spriteFrame",
+      "userData": {
+        "trimType": "auto",
+        "trimThreshold": 1,
+        "rotated": false,
+        "offsetX": 0,
+        "offsetY": 0,
+        "trimX": 2,
+        "trimY": 2,
+        "width": 1020,
+        "height": 1020,
+        "rawWidth": 1024,
+        "rawHeight": 1024,
+        "borderTop": 0,
+        "borderBottom": 0,
+        "borderLeft": 0,
+        "borderRight": 0,
+        "packable": true,
+        "pixelsToUnit": 100,
+        "pivotX": 0.5,
+        "pivotY": 0.5,
+        "meshType": 0,
+        "vertices": {
+          "rawPosition": [
+            -510,
+            -510,
+            0,
+            510,
+            -510,
+            0,
+            -510,
+            510,
+            0,
+            510,
+            510,
+            0
+          ],
+          "indexes": [
+            0,
+            1,
+            2,
+            2,
+            1,
+            3
+          ],
+          "uv": [
+            2,
+            1022,
+            1022,
+            1022,
+            2,
+            2,
+            1022,
+            2
+          ],
+          "nuv": [
+            0.001953125,
+            0.001953125,
+            0.998046875,
+            0.001953125,
+            0.001953125,
+            0.998046875,
+            0.998046875,
+            0.998046875
+          ],
+          "minPos": [
+            -510,
+            -510,
+            0
+          ],
+          "maxPos": [
+            510,
+            510,
+            0
+          ]
+        },
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "03ca491c-3350-456c-b573-a7e9fadf6073@6c48a",
+        "atlasUuid": ""
+      },
+      "ver": "1.0.11",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "fixAlphaTransparencyArtifacts": true,
+    "hasAlpha": true,
+    "type": "sprite-frame",
+    "redirect": "03ca491c-3350-456c-b573-a7e9fadf6073@f9941"
+  }
+}
