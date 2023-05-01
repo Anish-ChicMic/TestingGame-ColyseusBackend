@@ -43,98 +43,42 @@ export class NetworkManager extends Component {
     }
 
     async connect() {
+
         try {
             this.room = await this.client.joinOrCreate("my_room");
             console.log("joined successfully!");
             console.log("user's sessionId:", this.room.sessionId);
-
+            let parent = this;
             this.stateTopPlayer = this.room.state.playerInfo.topPlayer;
             this.statebottomPlayer = this.room.state.playerInfo.bottomPlayer;
             if (this.room.sessionId === this.stateTopPlayer) {
-                // this.strBottom.getComponent(RigidBody2D).enabled = false
                 this.strBottom.getComponent(Collider2D).enabled = false
             }
             else if (this.room.sessionId === this.statebottomPlayer) {
-                // this.strTop.getComponent(RigidBody2D).enabled = false
                 this.strTop.getComponent(Collider2D).enabled = false
             }
 
-            this.room.state.playerBottom.onChange = (changes) => {
-                // console.log("Received Bottom Change", changes);
-                this.stateTopPlayer = this.room.state.playerInfo.topPlayer;
-                this.statebottomPlayer = this.room.state.playerInfo.bottomPlayer;
-                // console.log("players Top, bot::::", this.stateTopPlayer, this.statebottomPlayer)
-                // console.log("IDS::::", this.room.sessionId === this.stateTopPlayer);
-                if (this.room.sessionId === this.stateTopPlayer) {
-                    let data = {
-                        position: this.strBottom.getPosition(),
-                        speedQueue: []
-                    }
 
-                    changes.forEach(change => {
-                        const { field, value } = change;
-                        switch (field) {
-                            case 'x': {
-                                data.position.x = value / 10;
-                                break;
-                            }
-                            case 'y': {
-                                data.position.y = value / 10;
-                                break;
-                            }
-                            case 'speedQueue': {
-                                let statespeedQueue = value;
-                                statespeedQueue.forEach(point => {
-                                    data.speedQueue.push(new Vec2(point.x, point.y));
-                                });
-                                break;
-                            }
-                        }
-                    });
+            this.room.state.players.onAdd = function (player, key) {
+                console.log(player, "has been added at", key, parent.room);
 
-                    this.strBottom.getComponent(strikerMovementManager).syncStrPositionWithServer(data.position, data.speedQueue);
+                this.stateTopPlayer = parent.room.state.playerInfo.topPlayer;
+                this.statebottomPlayer = parent.room.state.playerInfo.bottomPlayer;
+                player.onChange = function (change) {
+
+                    console.log("Something has changes!", this.stateTopPlayer, this.statebottomPlayer);
+                    console.log(change.field);
+                    console.log(change.value);
+                    console.log(change.previousValue);
                 }
-            };
 
-
-            this.room.state.playerTop.onChange = (changes) => {
-                // console.log("Received Top Change", changes);
-                this.stateTopPlayer = this.room.state.playerInfo.topPlayer;
-                this.statebottomPlayer = this.room.state.playerInfo.bottomPlayer;
-                // console.log("players Top, bot::::", this.stateTopPlayer, this.statebottomPlayer)
-                // console.log("IDS::::", this.room.sessionId === this.statebottomPlayer);
-                if (this.room.sessionId === this.statebottomPlayer) {
-                    let data = {
-                        position: this.strTop.getPosition(),
-                        speedQueue: []
-                    }
-
-                    changes.forEach(change => {
-                        const { field, value } = change;
-                        switch (field) {
-                            case 'x': {
-                                data.position.x = value / 10;
-                                break;
-                            }
-                            case 'y': {
-                                data.position.y = value / 10;
-                                break;
-                            }
-                            case 'speedQueue': {
-                                let statespeedQueue = value;
-                                statespeedQueue.forEach(point => {
-                                    data.speedQueue.push(new Vec2(point.x, point.y));
-                                });
-                            }
-                        }
-                    });
-
-                    this.strTop.getComponent(strikerMovementManager).syncStrPositionWithServer(data.position, data.speedQueue);
-                }
+                // force "onChange" to be called immediatelly
+                player.triggerAll();
             };
 
 
 
+            // *******************************************************************************
 
             this.room.state.PuckState.onChange = (changes) => {
                 // if (this.stateTopPlayer === this.room.sessionId) {
@@ -160,7 +104,7 @@ export class NetworkManager extends Component {
                 if (puckDataReceivedFrom != this.room.sessionId) {
 
                     // console.log("Puck OnChange============= ", changes);
-                    console.log("Received Puck changes from::: ", + puckDataReceivedFrom);
+                    // console.log("Received Puck changes from::: ", + puckDataReceivedFrom);
                     let serverPuckState = {
                         "position": this.puck.getPosition(),
                         "velocity": this.puck.getComponent(RigidBody2D).linearVelocity,
@@ -193,7 +137,7 @@ export class NetworkManager extends Component {
 
                         }
                     });
-                    console.log("Received SpeedQueue::: ", serverPuckState["angularVel"]);
+                    // console.log("Received SpeedQueue::: ", serverPuckState["angularVel"]);
                     this.puck.getComponent(puckMovementManager).syncPuckStateWithServer(serverPuckState["position"], serverPuckState["velocity"], serverPuckState["angularVel"])
                 }
             }
@@ -211,29 +155,15 @@ export class NetworkManager extends Component {
     }
 
 
-
-
-
-
     public sendStrikerStateToServer(positions: Vec3, speedQueue: Vec2[]) {
-        // console.log("Sending Striker Move Data to Server.....");
-        // console.log("Sender's session Id:", this.room.sessionId);
-        console.log("sending speedQueue::: ", speedQueue);
         positions.x = positions.x * 10; positions.y = positions.y * 10;
-        // speedQueue.forEach(point => {
-        //     point.x = point.x * 100;
-        //     point.y = point.y * 100;
-        // });
-        console.log(positions);
         this.room!.send("strikerMoved", { positions, speedQueue });
     }
     public sendPuckStateToServer(position: Vec3, velocity: Vec2, angularVelocity: number) {
-        // console.log("Sending Puck State To Server......");
-        // position.x = position.x * 10; position.y = position.y * 10;
-        // console.log(position);
-        // angularVelocity.for
         this.room!.send("PuckState", { position, velocity, angularVelocity });
     }
+
+
 
 
 }
