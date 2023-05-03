@@ -6,6 +6,8 @@ const { ccclass, property } = _decorator;
 @ccclass('login')
 export class login extends Component {
 
+    public USER_DATA: object = null;
+
     @property({ type: Node })
     signUp: Node = null;
 
@@ -80,6 +82,7 @@ export class login extends Component {
 
         if (this.isDataValid(userData)) {
             console.log("submit data!");
+            this.USER_DATA = userData;
             return true;
         }
         else {

@@ -1,8 +1,9 @@
-import { _decorator, Component, Node, Vec3, Pool, Vec2, Collider2D, RigidBody2D } from 'cc';
+import { _decorator, Component, Node, Vec3, Pool, Vec2, Collider2D, RigidBody2D, log } from 'cc';
 import { strikerMovementManager } from './strikerMovementManager';
 import Colyseus from 'db://colyseus-sdk/colyseus.js';
 import { puckMovementManager } from './puckMovementManager';
 import { collisionManager } from './collisionManager';
+import { login } from './login';
 
 const { ccclass, property } = _decorator;
 
@@ -44,11 +45,17 @@ export class NetworkManager extends Component {
 
     async connect() {
 
+
         try {
-            this.room = await this.client.joinOrCreate("my_room");
-            console.log("joined successfully!");
+            let userDATa = {
+                name: "Anish",
+                email: 'anishKmr09@gmail.com',
+                userID: 12312423,
+                // accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5pc2giLCJlbWFpbCI6ImFuaXNoS21yMDlAZ21haWwuY29tIiwidXNlcklEIjoxMjMxMjQyMywiaWF0IjoxNjgzMDMzNjk2fQ.tST-1ZuB1ge5JNqxWzmxee1U6VmSOBYUYB-XDZPf3Hc"
+            }
+            this.room = await this.client.joinOrCreate("my_room", userDATa);
+            console.log("joined successfully!", this.client);
             console.log("user's sessionId:", this.room.sessionId);
-            let parent = this;
             this.stateTopPlayer = this.room.state.playerInfo.topPlayer;
             this.statebottomPlayer = this.room.state.playerInfo.bottomPlayer;
             if (this.room.sessionId === this.stateTopPlayer) {
@@ -58,19 +65,56 @@ export class NetworkManager extends Component {
                 this.strTop.getComponent(Collider2D).enabled = false
             }
 
+            this.room.onMessage("GetToken", (data) => {
+                console.log("GetToken: ", data);
+            });
 
-            this.room.state.players.onAdd = function (player, key) {
-                console.log(player, "has been added at", key, parent.room);
 
-                this.stateTopPlayer = parent.room.state.playerInfo.topPlayer;
-                this.statebottomPlayer = parent.room.state.playerInfo.bottomPlayer;
-                player.onChange = function (change) {
+            this.room.state.players.onAdd = (player, key) => {
+                console.log(player, "has been added at", key);
 
-                    console.log("Something has changes!", this.stateTopPlayer, this.statebottomPlayer);
-                    console.log(change.field);
-                    console.log(change.value);
-                    console.log(change.previousValue);
+                this.stateTopPlayer = this.room.state.playerInfo.topPlayer;
+                this.statebottomPlayer = this.room.state.playerInfo.bottomPlayer;
+
+
+                player.onChange = (changes) => {
+                    console.log("Something has changes!");
+                    let data = { position: new Vec3(), speedQueue: [] }
+                    console.log("Player: ", player);
+
+                    changes.forEach(change => {
+                        const { field, value } = change;
+                        switch (field) {
+                            case 'x': {
+                                data.position.x = value / 10;
+                                break;
+                            }
+                            case 'y': {
+                                data.position.y = value / 10;
+                                break;
+                            }
+                            case 'speedQueue': {
+                                let statespeedQueue = value;
+                                statespeedQueue.forEach(point => {
+                                    data.speedQueue.push(new Vec2(point.x, point.y));
+                                });
+                            }
+                        }
+                    });
+
+                    console.log("Data got: ", data);
+                    // Problem Here ^^^ Not properlly moving strikers
+                    if (this.room.sessionId === this.stateTopPlayer) {
+                        console.log("this is top player, bottom needs to change!");
+                        this.strBottom.getComponent(strikerMovementManager).syncStrPositionWithServer(data.position, data.speedQueue);
+                    }
+                    else if (this.room.sessionId === this.statebottomPlayer) {
+                        console.log("this is bot player, top needs to change!");
+                        this.strTop.getComponent(strikerMovementManager).syncStrPositionWithServer(data.position, data.speedQueue);
+                    }
+
                 }
+
 
                 // force "onChange" to be called immediatelly
                 player.triggerAll();
@@ -151,6 +195,8 @@ export class NetworkManager extends Component {
 
         }
         catch (e) { console.error(e); }
+
+
 
     }
 
