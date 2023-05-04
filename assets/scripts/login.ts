@@ -6,7 +6,7 @@ const { ccclass, property } = _decorator;
 @ccclass('login')
 export class login extends Component {
 
-    public USER_DATA: object = null;
+    public USER_DATA: any = null;
 
     @property({ type: Node })
     signUp: Node = null;
@@ -53,6 +53,11 @@ export class login extends Component {
         this.logIn.on(Input.EventType.TOUCH_START, () => {
             if (this.validateData()) {
                 // Login Auth. Here
+                let data = {
+                    userID: this.USER_DATA.userNameEmail,
+                    password: this.USER_DATA.password
+                }
+                this.sendLoginRequest(data);
                 // soundManagerInstance.playMusicClip(resourceManagerInstance.getMusicFile("button"), false);
                 this.scheduleOnce(() => { this.node.active = false }, 0.6);
             }
@@ -108,7 +113,8 @@ export class login extends Component {
     isDataValid(data: {}) {
         const regEx = {
             nameFeild: /^[A-Za-z. ]{3,30}$/,
-            userName: /^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){3,18}[a-zA-Z0-9]$/,
+            // userName: /^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){3,18}[a-zA-Z0-9]$/,
+            userName: /^[A-Za-z][A-Za-z0-9_]{7,29}$/,
             // email: /^([a-z\d\.-]+)@([a-z\d-]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$/,
             email: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
             password: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/,
@@ -142,6 +148,31 @@ export class login extends Component {
         console.log("All Done! ✅");
         return true;
 
+    }
+
+    sendLoginRequest(param: any) {
+        let xhr = new XMLHttpRequest();
+        let fullurl = 'http://localhost:3000/users/login';
+
+        let readyStateChanged = () => {
+            if (xhr.readyState === 4 && xhr.status >= 200 && xhr.status < 300) {
+                let response: string = xhr.responseText;
+                console.log("Response: " + response);
+                localStorage.setItem('token', `${response}`)
+                // successCb(response);
+            } else if (xhr.readyState === 4 && xhr.status >= 400 && xhr.status < 500) {
+                let respone: string = xhr.responseText;
+                console.log("Response: " + respone);
+                // errorCb(respone);
+            }
+        };
+        xhr.open("POST", fullurl);
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        // if (requireToken) xhr.setRequestHeader("Authorization", sessionStorage.getItem("token"));
+
+        xhr.onreadystatechange = readyStateChanged;
+        xhr.send(JSON.stringify(param));
     }
 
 }

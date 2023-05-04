@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Vec3, Pool, Vec2, Collider2D, RigidBody2D, log } from 'cc';
+import { _decorator, Component, Node, Vec3, Pool, Vec2, Collider2D, RigidBody2D, log, Label } from 'cc';
 import { strikerMovementManager } from './strikerMovementManager';
 import Colyseus from 'db://colyseus-sdk/colyseus.js';
 import { puckMovementManager } from './puckMovementManager';
@@ -14,6 +14,7 @@ export class NetworkManager extends Component {
     @property port = 2567;
     @property useSSL = false;
 
+
     client!: Colyseus.Client;
     room!: Colyseus.Room;
 
@@ -24,6 +25,8 @@ export class NetworkManager extends Component {
     strBottom: Node | null = null;
     @property({ type: Node })
     puck: Node | null = null;
+    @property({ type: Label })
+    roomPlayerCoutn: Label | null = null;
 
     stateTopPlayer: string
     statebottomPlayer: string;
@@ -48,14 +51,12 @@ export class NetworkManager extends Component {
 
         try {
             let userDATa = {
-                name: "Anish",
-                email: 'anishKmr09@gmail.com',
-                userID: 12312423,
-                // accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5pc2giLCJlbWFpbCI6ImFuaXNoS21yMDlAZ21haWwuY29tIiwidXNlcklEIjoxMjMxMjQyMywiaWF0IjoxNjgzMDMzNjk2fQ.tST-1ZuB1ge5JNqxWzmxee1U6VmSOBYUYB-XDZPf3Hc"
+                // accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5pc2ggS3VtYXIiLCJlbWFpbCI6ImFuaXNoLjE5MDMua21yQGdtYWlsLmNvbSIsInVzZXJJRCI6ImFubmlpX180IiwiaWF0IjoxNjgzMTk1ODMzfQ._tJEDYuimlJXd7fpCf5JNBXYdin7se_O7VABv137iQA'
+                accessToken: localStorage.getItem('token')
             }
             this.room = await this.client.joinOrCreate("my_room", userDATa);
             console.log("joined successfully!", this.client);
-            console.log("user's sessionId:", this.room.sessionId);
+            console.log("user's sessionId:", this.room.sessionId, this.room);
             this.stateTopPlayer = this.room.state.playerInfo.topPlayer;
             this.statebottomPlayer = this.room.state.playerInfo.bottomPlayer;
             if (this.room.sessionId === this.stateTopPlayer) {
@@ -67,6 +68,10 @@ export class NetworkManager extends Component {
 
             this.room.onMessage("GetToken", (data) => {
                 console.log("GetToken: ", data);
+            });
+            this.room.onMessage("SomeoneJoinedOrLeaved", (data) => {
+                console.log("someone Leaved the room: ", data)
+                this.roomPlayerCoutn.string = data.playerCnt;
             });
 
 
@@ -102,7 +107,7 @@ export class NetworkManager extends Component {
                         }
                     });
 
-                    console.log("Data got: ", data);
+                    // console.log("Data got: ", data);
                     // Problem Here ^^^ Not properlly moving strikers
                     if (this.room.sessionId === this.stateTopPlayer) {
                         console.log("this is top player, bottom needs to change!");
